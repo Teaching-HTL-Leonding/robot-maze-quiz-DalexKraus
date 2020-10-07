@@ -2,6 +2,7 @@ using Maze.Library;
 using Maze.Solver;
 using System;
 using System.Collections;
+using System.Diagnostics;
 using Xunit;
 
 namespace Maze.Tests
@@ -37,6 +38,17 @@ namespace Maze.Tests
         {
             var robot = MoveToExit(Mazes.NoSolution, Mazes.NoSolutionStart, Mazes.NoSolutionEnd);
             Assert.True(robot.hcfCalled);
+        }
+
+        [Fact]
+        public void TestEfficiency()
+        {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+            MoveAndCheckPosition(Mazes.Snake, Mazes.SnakeStart, Mazes.SnakeEnd);
+            watch.Stop();
+            
+            Assert.True(watch.Elapsed.Milliseconds < 500);
         }
 
         private void MoveAndCheckPosition(string mazeString, (int y, int x) start, (int y, int x) end)
